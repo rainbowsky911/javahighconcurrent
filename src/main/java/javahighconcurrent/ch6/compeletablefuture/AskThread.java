@@ -1,6 +1,5 @@
 package javahighconcurrent.ch6.compeletablefuture;
 
-import com.sun.xml.internal.ws.util.CompletedFuture;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

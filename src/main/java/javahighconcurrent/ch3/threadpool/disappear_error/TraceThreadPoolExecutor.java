@@ -6,7 +6,11 @@ import java.util.concurrent.*;
  * 使用这个改进的线程池能够获得报错的线程的提交位置的信息
  */
 public class TraceThreadPoolExecutor extends ThreadPoolExecutor {
-    public TraceThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
+    public TraceThreadPoolExecutor(int corePoolSize,
+                                   int maximumPoolSize,
+                                   long keepAliveTime,
+                                   TimeUnit unit,
+                                   BlockingQueue<Runnable> workQueue) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
     }
 
@@ -25,7 +29,8 @@ public class TraceThreadPoolExecutor extends ThreadPoolExecutor {
     }
 
     private Runnable wrap(final Runnable task, final Exception clientStack,
-                          String clientThreadName){   //利用clientThreadName可以打印出父线程名
+                          String clientThreadName){
+        //利用clientThreadName可以打印出父线程名
         return new Runnable() {
             @Override
             public void run() {

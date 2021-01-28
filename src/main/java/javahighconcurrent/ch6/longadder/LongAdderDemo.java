@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.LongAdder;
 public class LongAdderDemo {
     private static final int MAX_THREADS = 3;				   //线程数
     private static final int TASK_COUNT = 3;				   //任务数
-    private static final int TARGET_COUNT = 10000000;		   //目标总数
+    private static final int TARGET_COUNT = 100000000;		   //目标总数
 
     private AtomicLong acount =new AtomicLong(0L);			//无锁的原子操作
     private LongAdder lacount=new LongAdder();
@@ -116,9 +116,9 @@ public class LongAdderDemo {
     public void testAtomicLong() throws InterruptedException{
         ExecutorService exe=Executors.newFixedThreadPool(MAX_THREADS);
         long starttime=System.currentTimeMillis();
-        LongAddrThread atomic=new LongAddrThread(starttime);
+        LongAddrThread lastThread=new LongAddrThread(starttime);
         for(int i=0;i<TASK_COUNT;i++){
-            exe.submit(atomic);								//提交线程开始计算
+            exe.submit(lastThread);								//提交线程开始计算
         }
         cdladdr.await();
         exe.shutdown();

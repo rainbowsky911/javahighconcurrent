@@ -65,7 +65,7 @@ public class CyclicBarrierDemo {
     }
 
     public static void main(String[] args) {
-        final int N = 10;
+        final int N = 4;
         Thread[] allSoldier = new Thread[N];
         boolean flag = false;
         CyclicBarrier cyclic = new CyclicBarrier(N, new BarrierRun(flag, N));
