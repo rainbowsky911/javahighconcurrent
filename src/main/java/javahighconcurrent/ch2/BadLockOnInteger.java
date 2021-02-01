@@ -1,5 +1,9 @@
 package javahighconcurrent.ch2;
 
+/**
+ * 错误的加锁, 。对象一旦创建不可被修改
+ * 如果一个Integer对象代表为1,那么它就永远表示1
+ */
 public class BadLockOnInteger implements Runnable {
 
     public static Integer i = 0;

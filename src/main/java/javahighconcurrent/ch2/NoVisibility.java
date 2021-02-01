@@ -2,7 +2,11 @@ package javahighconcurrent.ch2;
 
 
 public class NoVisibility {
-    private static boolean ready;
+    /***
+     * 如果此处不加volatile,主方法修改了ready的值,
+     * 线程检测不到ready的变化,所以程序会一直运行下去
+     */
+    private static   boolean ready;
     private static int number;
 
     private static void setReady(boolean re){
@@ -13,7 +17,7 @@ public class NoVisibility {
         @Override
         public void run() {
             while (!ready);
-            System.out.println(number);
+            System.out.println("hello world");
         }
     }
 
@@ -22,6 +26,6 @@ public class NoVisibility {
         Thread.sleep(1000);
         number = 42;
         setReady(true);
-        Thread.sleep(10000);
+        Thread.sleep(1000);
     }
 }
