@@ -6,7 +6,7 @@ public class NoVisibility {
      * 如果此处不加volatile,主方法修改了ready的值,
      * 线程检测不到ready的变化,所以程序会一直运行下去
      */
-    private static   boolean ready;
+    private static   volatile boolean ready;
     private static int number;
 
     private static void setReady(boolean re){
