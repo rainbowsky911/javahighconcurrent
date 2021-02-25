@@ -1,9 +1,12 @@
-package javahighconcurrent.ch3;
+package javahighconcurrent.ch2;
 
 import lombok.NoArgsConstructor;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 使用了tryLock 不会造成死锁,占据不到锁时候会释放锁
+ */
 @NoArgsConstructor
 public class TryLock implements Runnable {
 
@@ -29,7 +32,7 @@ public class TryLock implements Runnable {
                         }
                         if (lock2.tryLock()) {
                             try {
-                                System.out.println(Thread.currentThread().getId() + "My job doen");
+                                System.out.println(Thread.currentThread().getId() + "My job done");
                                 return;
                             } finally {
                                 lock2.unlock();
@@ -53,7 +56,7 @@ public class TryLock implements Runnable {
                         }
                         if (lock1.tryLock()) {
                             try {
-                                System.out.println(Thread.currentThread().getId() + "My job is doen");
+                                System.out.println(Thread.currentThread().getId() + "My job is done");
                                 return;
                             } finally {
                                 lock1.unlock();

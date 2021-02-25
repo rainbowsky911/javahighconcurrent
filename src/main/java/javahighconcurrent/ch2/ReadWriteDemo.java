@@ -1,4 +1,4 @@
-package javahighconcurrent.ch3;
+package javahighconcurrent.ch2;
 
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
