@@ -32,7 +32,7 @@ public class ReentLockCondition implements Runnable {
         //通知t1线程继续执行
         lock.lock();
         condition.signal();
-        //虽然已经唤醒了t1线程，但是没有释放锁,但是它无法重新获得锁t1线程还是没法执行
-        lock.unlock();
+
+        lock.unlock();//如果省去这行代码,虽然已经唤醒了t1线程，但是没有释放锁,但是它无法重新获得锁t1线程还是没法执行
     }
 }
