@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * 读写锁
+ * ReadWriteLock读写锁
  *
  * @author 51473
  */
@@ -21,9 +21,9 @@ public class ReadWriteLockDemo {
 
     public void handleRead(Lock lock) throws Exception {
 
-        lock.lock();
+        lock.lock();    //模拟读操作
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1000); //读操作耗时多，写操作的优势越明显。
         } catch (Exception e) {
 
         } finally {
@@ -35,7 +35,7 @@ public class ReadWriteLockDemo {
         lock.lock();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1000); //模拟写操作
             value = index;
         } catch (Exception e) {
 
@@ -50,8 +50,8 @@ public class ReadWriteLockDemo {
         Runnable readRunnable = () -> {
 
             try {
-                // demo.handleRead(lock);
                 demo.handleRead(readLock);
+                // demo.handleRead(lock);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -60,8 +60,8 @@ public class ReadWriteLockDemo {
         Runnable writeRunnable = () -> {
 
             try {
+                demo.handleWrite(writeLock, new Random().nextInt());
                 //  demo.handleWrite(lock,new Random().nextInt(100));
-                demo.handleWrite(writeLock, new Random().nextInt(100));
             } catch (Exception e) {
 
             }
@@ -76,5 +76,7 @@ public class ReadWriteLockDemo {
             new Thread(writeRunnable).start();
         }
     }
-
+    /***
+     * 书上的读写锁执行时间为2秒。重入锁20秒
+     */
 }
