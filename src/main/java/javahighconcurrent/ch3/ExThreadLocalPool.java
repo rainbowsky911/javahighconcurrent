@@ -5,9 +5,13 @@ import lombok.Data;
 
 import java.util.concurrent.*;
 
+
 /**
- * 扩展线程池
- * @author 51473
+ * Created with IntelliJ IDEA.
+ *
+ * @Auther: zdw
+ * @Date: 2021/06/05/15:34
+ * @Description: 扩展线程池
  */
 public class ExThreadLocalPool {
 
@@ -29,11 +33,13 @@ public class ExThreadLocalPool {
         /**
          * 扩展了原有的线程池
          * 重写了beforeExecute 、afterExecute、terminated方法
-         *
+         *  记录一个任务的开始、结束和整个线程池的退出。
          */
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5,
-                5, 0L,
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                5,
+                5,
+                0L,
                 TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>()) {
             @Override
             protected void beforeExecute(Thread t, Runnable r) {
