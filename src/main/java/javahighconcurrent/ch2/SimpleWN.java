@@ -27,7 +27,7 @@ public class SimpleWN {
         @Override
         public void run() {
           synchronized (object){
-              System.out.println(System.currentTimeMillis()+":T1 start! notify one thread");
+              System.out.println(System.currentTimeMillis()+":T2 start! notify one thread");
               try {
                   object.notify();
                   System.out.println(System.currentTimeMillis()+":T2 end!");

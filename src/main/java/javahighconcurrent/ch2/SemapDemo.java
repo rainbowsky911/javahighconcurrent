@@ -5,7 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 /**
- * 允许多个多线程同时访问
+ * 允许多个多线程同时访问,无论是内部锁synchronized还是重入锁ReentrantLock一次都只允许
+ * 一个线程访问一个资源，而信号量可以指定多个线程，同时访问某一个资源。
  */
 public class SemapDemo implements Runnable {
 

@@ -22,9 +22,9 @@ public class TimeLock implements Runnable {
                 //这里休眠了7秒，超过5秒会自动放弃锁争夺
                 //tryLock也可以不带参数运行，如果竞争不到锁会立即返回false
                 Thread.sleep(7000);
-                System.out.println("get lock succ");
+                System.out.println(Thread.currentThread().getName()+"get lock succ");
             } else {
-                System.out.println("get lock failed");
+                System.out.println(Thread.currentThread().getName()+"get lock failed");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
