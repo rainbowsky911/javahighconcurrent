@@ -12,6 +12,15 @@ public class AskThread implements Runnable {
         this.re = re;
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        final CompletableFuture<Integer> future = new CompletableFuture<>();
+        new Thread(new AskThread(future)).start();
+        Thread.sleep(1000);
+
+        //给予future数据
+        future.complete(60);
+    }
+
     @Override
     public void run() {
         int myRe = 0;
@@ -25,14 +34,5 @@ public class AskThread implements Runnable {
         }
 
         System.out.println(myRe);
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        final CompletableFuture<Integer> future = new CompletableFuture<>();
-        new Thread(new AskThread(future)).start();
-        Thread.sleep(1000);
-
-        //给予future数据
-        future.complete(60);
     }
 }

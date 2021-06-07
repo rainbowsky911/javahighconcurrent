@@ -3,9 +3,9 @@ package javahighconcurrent.ch5.future_model.myfuture;
 public class RealData implements Data {
     protected final String result;
 
-    public RealData(String para){
+    public RealData(String para) {
         StringBuffer sb = new StringBuffer();
-        for ( int i = 0; i < 10; i++ ){
+        for (int i = 0; i < 10; i++) {
             sb.append(para);
             try {
                 Thread.sleep(100);

@@ -7,10 +7,10 @@ import java.util.concurrent.locks.StampedLock;
  */
 public class Point {
 
-    private double x, y;
     private final StampedLock s1 = new StampedLock();
+    private double x, y;
 
-    void move(double deltaX, double deltaY){
+    void move(double deltaX, double deltaY) {
         long stamp = s1.writeLock();
         try {
             x += deltaX;
@@ -20,11 +20,11 @@ public class Point {
         }
     }
 
-    double distanceFromOrigin(){
+    double distanceFromOrigin() {
         //乐观读
         long stamp = s1.tryOptimisticRead();
         double currentX = x, currentY = y;
-        if ( !s1.validate(stamp) ){
+        if (!s1.validate(stamp)) {
             //锁升级，如果此时有别的线程正在临界区，则可能会造成线程挂起
             //这里也可以选择不升级，而是类似于CAS那样循环申请乐观读锁
             stamp = s1.readLock();

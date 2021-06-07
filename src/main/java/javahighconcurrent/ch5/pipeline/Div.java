@@ -8,7 +8,7 @@ public class Div implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (true) {
             try {
                 Msg msg = bq.take();
                 msg.i = msg.i / 2;

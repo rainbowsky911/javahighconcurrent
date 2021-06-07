@@ -3,21 +3,14 @@ package javahighconcurrent;
 import org.junit.Test;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class LambdaTest {
-
-    @Override
-    public String toString() {
-        return "apple";
-    }
 
     /**
      * lambda表达式中this代表外部类对象
      */
     Runnable r1 = () -> System.out.println(this);
-
     /**
      * 匿名内部类中this代表内部类对象
      */
@@ -27,6 +20,11 @@ public class LambdaTest {
             System.out.println(this);
         }
     };
+
+    @Override
+    public String toString() {
+        return "apple";
+    }
 
     @Test
     public void test() throws InterruptedException {

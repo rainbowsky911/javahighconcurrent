@@ -6,14 +6,15 @@ public class FalseSharingElegant implements Runnable {
 
     public final static int NUM_THREADS = 4;
     public final static long ITERATIONS = 500L * 1000L * 1000L;   //5亿次
-    private final int arrayIndex;
-
     private static VolatileLong[] longs = new VolatileLong[NUM_THREADS];
+
     static {
-        for ( int i = 0; i < longs.length; i++ ){
+        for (int i = 0; i < longs.length; i++) {
             longs[i] = new VolatileLong();
         }
     }
+
+    private final int arrayIndex;
 
     public FalseSharingElegant(int arrayIndex) {
         this.arrayIndex = arrayIndex;
@@ -25,17 +26,17 @@ public class FalseSharingElegant implements Runnable {
         System.out.println("duration = " + (System.currentTimeMillis() - start));
     }
 
-    private static void runTest(){
+    private static void runTest() {
         Thread[] threads = new Thread[NUM_THREADS];
-        for ( int i = 0; i < threads.length; i++ ){
+        for (int i = 0; i < threads.length; i++) {
             threads[i] = new Thread(new FalseSharingElegant(i));
         }
 
-        for ( Thread t : threads ){
+        for (Thread t : threads) {
             t.start();
         }
 
-        for ( Thread t : threads ){
+        for (Thread t : threads) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -47,7 +48,7 @@ public class FalseSharingElegant implements Runnable {
     @Override
     public void run() {
         long i = ITERATIONS + 1;
-        while ( 0 != --i ){
+        while (0 != --i) {
             longs[arrayIndex].value = i;
         }
     }
@@ -57,6 +58,7 @@ public class FalseSharingElegant implements Runnable {
      * 必须要加额外的JVM参数： -XX:-RestrictContended
      * 该注解才能生效
      * 否则该注解会被忽略
+     *
      * @sun.misc.Contended
      */
     @Contended

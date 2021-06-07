@@ -23,9 +23,9 @@ public class MatrixMulTask extends RecursiveTask<Matrix> {
     @Override
     protected Matrix compute() {
         System.out.println(Thread.currentThread().getId() + ":" + Thread.currentThread().getName()
-            + " is start");
+                + " is start");
         //如果小于一定粒度则直接进行计算
-        if ( m1.rows() <= PMatrixMul.granularity || m2.cols() <= PMatrixMul.granularity ){
+        if (m1.rows() <= PMatrixMul.granularity || m2.cols() <= PMatrixMul.granularity) {
             Matrix mRe = MatrixOperator.multiply(m1, m2);
             return mRe;
         } else {
@@ -55,12 +55,12 @@ public class MatrixMulTask extends RecursiveTask<Matrix> {
             tmp = new MatrixMulTask(m12, m22, "m4");
             subTasks.add(tmp);
 
-            for ( MatrixMulTask t : subTasks ){
+            for (MatrixMulTask t : subTasks) {
                 t.fork();
             }
 
             Map<String, Matrix> matrixMap = new HashMap<>();
-            for ( MatrixMulTask t : subTasks ){
+            for (MatrixMulTask t : subTasks) {
                 matrixMap.put(t.pos, t.join());
             }
             Matrix tmp1 = MatrixOperator.horizontalConcatenation(matrixMap.get("m1"),

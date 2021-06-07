@@ -7,7 +7,7 @@ public class BadMethodRef {
 
     public static void main(String[] args) {
         List<Double> numbers = new ArrayList<>();
-        for ( int i = 0; i < 10; i++ ){
+        for (int i = 0; i < 10; i++) {
             numbers.add(Double.valueOf(i));
         }
         /**

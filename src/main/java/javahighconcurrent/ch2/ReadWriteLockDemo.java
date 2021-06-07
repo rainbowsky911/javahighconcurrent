@@ -19,31 +19,6 @@ public class ReadWriteLockDemo {
 
     private int value;
 
-    public void handleRead(Lock lock) throws Exception {
-
-        lock.lock();    //模拟读操作
-        try {
-            Thread.sleep(1000); //读操作耗时多，写操作的优势越明显。
-        } catch (Exception e) {
-
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void handleWrite(Lock lock, int index) {
-        lock.lock();
-
-        try {
-            Thread.sleep(1000); //模拟写操作
-            value = index;
-        } catch (Exception e) {
-
-        } finally {
-            lock.unlock();
-        }
-    }
-
     public static void main(String[] args) {
 
         final ReadWriteLockDemo demo = new ReadWriteLockDemo();
@@ -74,6 +49,31 @@ public class ReadWriteLockDemo {
 
         for (int i = 0; i < 20; i++) {
             new Thread(writeRunnable).start();
+        }
+    }
+
+    public void handleRead(Lock lock) throws Exception {
+
+        lock.lock();    //模拟读操作
+        try {
+            Thread.sleep(1000); //读操作耗时多，写操作的优势越明显。
+        } catch (Exception e) {
+
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void handleWrite(Lock lock, int index) {
+        lock.lock();
+
+        try {
+            Thread.sleep(1000); //模拟写操作
+            value = index;
+        } catch (Exception e) {
+
+        } finally {
+            lock.unlock();
         }
     }
     /***

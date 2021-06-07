@@ -6,11 +6,11 @@ package javahighconcurrent.ch5.singleton;
  */
 public class LazySingleton {
 
+    private static LazySingleton instance = null;
+
     public LazySingleton() {
         System.out.println("LazySingleton is created");
     }
-
-    private static LazySingleton instance = null;
 
     /**
      * 为了对象被多次创建,需要使用synchronizes进行同步

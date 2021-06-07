@@ -2,8 +2,6 @@ package javahighconcurrent.ch6.compeletablefuture;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,12 +32,12 @@ public class Test {
         });
         System.out.println(future1.get());*/
 
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(()-> {
-                return "Result of the asynchronous computation";
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            return "Result of the asynchronous computation";
         });
 
         String result = future.get();
-      //  System.out.println(result);
+        //  System.out.println(result);
 
     }
 }

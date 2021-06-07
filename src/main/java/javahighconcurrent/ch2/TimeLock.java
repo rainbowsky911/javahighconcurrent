@@ -14,6 +14,15 @@ public class TimeLock implements Runnable {
 
     private int number = 10;
 
+    public static void main(String[] args) {
+
+        TimeLock timeLock = new TimeLock();
+        Thread t1 = new Thread(timeLock);
+        Thread t2 = new Thread(timeLock);
+        t1.start();
+        t2.start();
+    }
+
     @Override
     public void run() {
 
@@ -22,9 +31,9 @@ public class TimeLock implements Runnable {
                 //这里休眠了7秒，超过5秒会自动放弃锁争夺
                 //tryLock也可以不带参数运行，如果竞争不到锁会立即返回false
                 Thread.sleep(7000);
-                System.out.println(Thread.currentThread().getName()+"get lock succ");
+                System.out.println(Thread.currentThread().getName() + "get lock succ");
             } else {
-                System.out.println(Thread.currentThread().getName()+"get lock failed");
+                System.out.println(Thread.currentThread().getName() + "get lock failed");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -35,14 +44,5 @@ public class TimeLock implements Runnable {
             }
         }
 
-    }
-
-    public static void main(String[] args) {
-
-        TimeLock timeLock = new TimeLock();
-        Thread t1 = new Thread(timeLock);
-        Thread t2 = new Thread(timeLock);
-        t1.start();
-        t2.start();
     }
 }

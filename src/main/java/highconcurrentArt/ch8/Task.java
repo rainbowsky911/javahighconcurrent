@@ -9,6 +9,7 @@ import java.util.stream.LongStream;
 
 /**
  * ForkJoinTask
+ *
  * @author 51473
  * <p>
  * /**
@@ -37,6 +38,12 @@ public class Task extends RecursiveTask<Long> {
     int start;
     int end;
 
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        long[] data = LongStream.rangeClosed(1, 100).toArray();
+        ForkJoinPool pool = new ForkJoinPool();
+        ForkJoinTask<Long> future = pool.submit(new Task(data, 0, data.length - 1));
+        System.out.println("统计结果:" + future.get());
+    }
 
     @Override
     protected Long compute() {
@@ -58,13 +65,6 @@ public class Task extends RecursiveTask<Long> {
             sum = result1 + result2;
         }
         return sum;
-    }
-
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        long[] data = LongStream.rangeClosed(1, 100).toArray();
-        ForkJoinPool pool = new ForkJoinPool();
-        ForkJoinTask<Long> future = pool.submit(new Task(data, 0, data.length - 1));
-        System.out.println("统计结果:" + future.get());
     }
 }
 

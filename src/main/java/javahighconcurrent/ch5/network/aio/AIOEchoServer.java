@@ -1,4 +1,3 @@
-
 package javahighconcurrent.ch5.network.aio;
 
 import java.io.IOException;
@@ -15,8 +14,17 @@ import java.util.concurrent.TimeoutException;
 public class AIOEchoServer {
     public final static int PORT = 8000;
     private AsynchronousServerSocketChannel server;
+
     public AIOEchoServer() throws IOException {
         server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress(PORT));
+    }
+
+    public static void main(String args[]) throws Exception {
+        new AIOEchoServer().start();
+        // 主线程可以继续自己的行为
+        while (true) {
+            Thread.sleep(1000);
+        }
     }
 
     public void start() throws InterruptedException, ExecutionException, TimeoutException {
@@ -29,14 +37,14 @@ public class AIOEchoServer {
             //连接成功时回调
             public void completed(AsynchronousSocketChannel result, Object attachment) {
                 System.out.println(Thread.currentThread().getName());
-                Future<Integer> writeResult=null;
+                Future<Integer> writeResult = null;
                 try {
                     buffer.clear();
                     //这里的read也是异步的,返回一个Feature,所以这样调用future.get将其改为同步方法
                     result.read(buffer).get(100, TimeUnit.SECONDS);
                     buffer.flip();
                     //write也是异步的,返回一个Feature
-                    writeResult=result.write(buffer);
+                    writeResult = result.write(buffer);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 } catch (TimeoutException e) {
@@ -61,13 +69,5 @@ public class AIOEchoServer {
                 System.out.println("failed: " + exc);
             }
         });
-    }
-
-    public static void main(String args[]) throws Exception {
-        new AIOEchoServer().start();
-        // 主线程可以继续自己的行为
-        while (true) {
-            Thread.sleep(1000);
-        }
     }
 }

@@ -14,6 +14,19 @@ public class TraceThreadPoolExecutor extends ThreadPoolExecutor {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
     }
 
+    public static void main(String[] args) {
+
+        ThreadPoolExecutor pool = new TraceThreadPoolExecutor(0, Integer.MAX_VALUE,
+                0L, TimeUnit.MICROSECONDS, new SynchronousQueue<Runnable>());
+
+        /**
+         * 错误堆栈可以看到是在哪里提交的任务
+         */
+        for (int i = 0; i < 5; i++) {
+            pool.execute(new DivTask(100, i));
+        }
+    }
+
     @Override
     public void execute(Runnable task) {
         super.execute(wrap(task, clientTrace(), Thread.currentThread().getName()));
@@ -40,19 +53,6 @@ public class TraceThreadPoolExecutor extends ThreadPoolExecutor {
             }
         };
 
-    }
-
-    public static void main(String[] args) {
-
-        ThreadPoolExecutor pool = new TraceThreadPoolExecutor(0, Integer.MAX_VALUE,
-                0L, TimeUnit.MICROSECONDS, new SynchronousQueue<Runnable>());
-
-        /**
-         * 错误堆栈可以看到是在哪里提交的任务
-         */
-        for (int i = 0; i < 5; i++) {
-            pool.execute(new DivTask(100, i));
-        }
     }
 
 }

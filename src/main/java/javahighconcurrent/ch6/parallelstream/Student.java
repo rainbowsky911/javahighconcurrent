@@ -15,14 +15,14 @@ public class Student {
 
     public static void main(String[] args) {
         List<Student> ss = new ArrayList<>();
-        for ( int i = 0; i < 10000000; i++ ){
+        for (int i = 0; i < 10000000; i++) {
             ss.add(new Student(i));
         }
         long start = System.currentTimeMillis();
         //串行
         //double ave = ss.stream().mapToInt(s->s.score).average().getAsDouble();
         // 并行
-        double ave = ss.parallelStream().mapToInt(s->s.score).average().getAsDouble();
+        double ave = ss.parallelStream().mapToInt(s -> s.score).average().getAsDouble();
         System.out.println(ave);
         System.out.println("time:" + (System.currentTimeMillis() - start));
     }

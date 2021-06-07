@@ -11,10 +11,10 @@ import java.util.concurrent.BlockingQueue;
 public class BlokckQueueExample {
     public static void main(String[] args) throws InterruptedException {
 
-        BlockingQueue queue =new ArrayBlockingQueue(1024);
+        BlockingQueue queue = new ArrayBlockingQueue(1024);
 
-        Produce produce=new Produce(queue);
-        Consumer consumer =new Consumer(queue);
+        Produce produce = new Produce(queue);
+        Consumer consumer = new Consumer(queue);
 
         new Thread(produce).start();
         new Thread(consumer).start();

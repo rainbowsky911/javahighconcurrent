@@ -2,9 +2,9 @@ package javahighconcurrent.ch5.future_model.myfuture;
 
 public class Client {
 
-    public Data request(final String queryStr){
+    public Data request(final String queryStr) {
         final FutureData future = new FutureData();
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 RealData realData = new RealData(queryStr);

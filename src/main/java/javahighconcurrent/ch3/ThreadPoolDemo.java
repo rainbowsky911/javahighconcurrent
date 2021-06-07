@@ -3,7 +3,6 @@ package javahighconcurrent.ch3;
 import lombok.SneakyThrows;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,23 +13,23 @@ import java.util.concurrent.Executors;
  * @Date: 2021/06/05/16:11
  * @Description:
  */
-public class ThreadPoolDemo  {
+public class ThreadPoolDemo {
 
     public static void main(String[] args) {
 
-        MyTask myTask=new MyTask();
+        MyTask myTask = new MyTask();
         //固定个数线程池
         ExecutorService pool = Executors.newFixedThreadPool(5);
-        for (int i = 0; i <10;i++){
+        for (int i = 0; i < 10; i++) {
             pool.submit(myTask);
         }
     }
 
-   public  static class MyTask implements Runnable {
+    public static class MyTask implements Runnable {
         @Override
         @SneakyThrows
         public void run() {
-            System.out.println(LocalDateTime.now()+":Thread ID"+Thread.currentThread().getId());
+            System.out.println(LocalDateTime.now() + ":Thread ID" + Thread.currentThread().getId());
             Thread.sleep(1000);
         }
     }

@@ -1,4 +1,3 @@
-
 package javahighconcurrent.ch5.network.nio;
 
 import java.net.InetAddress;
@@ -10,56 +9,27 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MultiThreadNIOEchoServer {
     //用于统计服务器线程在一个客户端上花费的时间
-	public static Map<Socket,Long> geym_time_stat=new HashMap<Socket,Long>(10240);
-    class EchoClient {
-        private LinkedList<ByteBuffer> outq;
-
-        EchoClient() {
-            outq = new LinkedList<ByteBuffer>();
-        }
-
-        // Return the output queue.
-        public LinkedList<ByteBuffer> getOutputQueue() {
-            return outq;
-        }
-
-        // Enqueue a ByteBuffer on the output queue.
-        public void enqueue(ByteBuffer bb) {
-            outq.addFirst(bb);
-        }
-    }
-
-    class HandleMsg implements Runnable{
-        SelectionKey sk;
-        ByteBuffer bb;
-        public HandleMsg(SelectionKey sk,ByteBuffer bb){
-            this.sk=sk;
-            this.bb=bb;
-        }
-        @Override
-        public void run() {
-            EchoClient echoClient = (EchoClient) sk.attachment();
-            echoClient.enqueue(bb);
-
-            // 再注册一个写操作
-            sk.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-            //强迫selector立即返回
-            selector.wakeup();
-        }
-    }
-    
+    public static Map<Socket, Long> geym_time_stat = new HashMap<Socket, Long>(10240);
     private Selector selector;
-    private ExecutorService  tp=Executors.newCachedThreadPool();
+    private ExecutorService tp = Executors.newCachedThreadPool();
+
+    // Main entry point.
+    public static void main(String[] args) {
+        MultiThreadNIOEchoServer echoServer = new MultiThreadNIOEchoServer();
+        try {
+            echoServer.startServer();
+        } catch (Exception e) {
+            System.out.println("Exception caught, program exiting...");
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Accept a new client and set it up for reading.
      */
@@ -113,7 +83,7 @@ public class MultiThreadNIOEchoServer {
 
         // Flip the buffer.
         bb.flip();
-        tp.execute(new HandleMsg(sk,bb));
+        tp.execute(new HandleMsg(sk, bb));
     }
 
     /**
@@ -181,50 +151,76 @@ public class MultiThreadNIOEchoServer {
         // Register the socket for select events.
         //如果是NIO客户端,则应该注册OP_CONNECT事件
         SelectionKey acceptKey = ssc.register(selector, SelectionKey.OP_ACCEPT);
-        
+
         // Loop forever.
-        for (;;) {
+        for (; ; ) {
             //select是一个阻塞方法,返回值是已经就绪的SelectionKey的数量
-             selector.select();
+            selector.select();
 //            if(selector.selectNow()==0){
 //                continue;
 //            }
             //获取已经准备好的Key
             Set readyKeys = selector.selectedKeys();
             Iterator i = readyKeys.iterator();
-            long e=0;
+            long e = 0;
             while (i.hasNext()) {
                 SelectionKey sk = (SelectionKey) i.next();
                 //处理完一个Key后,必须将其移除,不然会重复处理
                 i.remove();
-                
+
                 if (sk.isAcceptable()) {
                     doAccept(sk);
-                }
-                else if (sk.isValid() && sk.isReadable()) {
-                	if(!geym_time_stat.containsKey(((SocketChannel)sk.channel()).socket()))
-                		geym_time_stat.put(((SocketChannel)sk.channel()).socket(), 
-                			System.currentTimeMillis());
+                } else if (sk.isValid() && sk.isReadable()) {
+                    if (!geym_time_stat.containsKey(((SocketChannel) sk.channel()).socket()))
+                        geym_time_stat.put(((SocketChannel) sk.channel()).socket(),
+                                System.currentTimeMillis());
                     doRead(sk);
-                }
-                else if (sk.isValid() && sk.isWritable()) {
+                } else if (sk.isValid() && sk.isWritable()) {
                     doWrite(sk);
-                    e=System.currentTimeMillis();
-                    long b=geym_time_stat.remove(((SocketChannel)sk.channel()).socket());
-                    System.out.println("spend:"+(e-b)+"ms");
+                    e = System.currentTimeMillis();
+                    long b = geym_time_stat.remove(((SocketChannel) sk.channel()).socket());
+                    System.out.println("spend:" + (e - b) + "ms");
                 }
             }
         }
     }
 
-    // Main entry point.
-    public static void main(String[] args) {
-        MultiThreadNIOEchoServer echoServer = new MultiThreadNIOEchoServer();
-        try {
-            echoServer.startServer();
-        } catch (Exception e) {
-            System.out.println("Exception caught, program exiting...");
-            e.printStackTrace();
+    class EchoClient {
+        private LinkedList<ByteBuffer> outq;
+
+        EchoClient() {
+            outq = new LinkedList<ByteBuffer>();
+        }
+
+        // Return the output queue.
+        public LinkedList<ByteBuffer> getOutputQueue() {
+            return outq;
+        }
+
+        // Enqueue a ByteBuffer on the output queue.
+        public void enqueue(ByteBuffer bb) {
+            outq.addFirst(bb);
+        }
+    }
+
+    class HandleMsg implements Runnable {
+        SelectionKey sk;
+        ByteBuffer bb;
+
+        public HandleMsg(SelectionKey sk, ByteBuffer bb) {
+            this.sk = sk;
+            this.bb = bb;
+        }
+
+        @Override
+        public void run() {
+            EchoClient echoClient = (EchoClient) sk.attachment();
+            echoClient.enqueue(bb);
+
+            // 再注册一个写操作
+            sk.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+            //强迫selector立即返回
+            selector.wakeup();
         }
     }
 }

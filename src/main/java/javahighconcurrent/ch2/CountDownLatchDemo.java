@@ -14,18 +14,6 @@ public class CountDownLatchDemo implements Runnable {
     static final CountDownLatch end = new CountDownLatch(10);
     static final CountDownLatchDemo demo = new CountDownLatchDemo();
 
-    @Override
-    public void run() {
-        try {
-            //检查模拟任务
-            Thread.sleep(new Random().nextInt(10) * 1000);
-            System.out.println("check complate");
-            end.countDown();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) throws InterruptedException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -39,5 +27,17 @@ public class CountDownLatchDemo implements Runnable {
         System.out.println("fire");
         executorService.shutdown();
 
+    }
+
+    @Override
+    public void run() {
+        try {
+            //检查模拟任务
+            Thread.sleep(new Random().nextInt(10) * 1000);
+            System.out.println("check complate");
+            end.countDown();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

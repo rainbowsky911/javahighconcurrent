@@ -23,6 +23,16 @@ public class CompletableFutureTest {
         return number / 2;
     }
 
+    public static Integer calcWithZeroException(Integer number) {
+        try {
+            //模拟一个长时间的执行
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return number / 0;
+    }
+
     /**
      * 异步执行任务
      *
@@ -74,7 +84,6 @@ public class CompletableFutureTest {
         future.get();
     }
 
-
     /**
      * 组合CompletableCompose
      *
@@ -110,17 +119,6 @@ public class CompletableFutureTest {
                 .thenApply((str) -> "\"" + str + "\"")
                 .thenAccept(System.out::println);
         fu.get();
-    }
-
-
-    public static Integer calcWithZeroException(Integer number) {
-        try {
-            //模拟一个长时间的执行
-            Thread.sleep(2000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return number / 0;
     }
 
 

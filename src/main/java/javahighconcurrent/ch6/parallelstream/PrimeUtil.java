@@ -7,13 +7,13 @@ import java.util.stream.IntStream;
  */
 public class PrimeUtil {
 
-    public static boolean isPrime(int number){
+    public static boolean isPrime(int number) {
         int tmp = number;
-        if ( tmp < 2 ){
+        if (tmp < 2) {
             return false;
         }
-        for ( int i = 2; i <= Math.sqrt(tmp); i++ ){
-            if ( tmp % i == 0 ){
+        for (int i = 2; i <= Math.sqrt(tmp); i++) {
+            if (tmp % i == 0) {
                 return false;
             }
         }

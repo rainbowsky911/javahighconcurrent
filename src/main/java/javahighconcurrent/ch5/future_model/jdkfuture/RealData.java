@@ -13,7 +13,7 @@ public class RealData implements Callable<String> {
     @Override
     public String call() throws Exception {
         StringBuffer sb = new StringBuffer();
-        for ( int i = 0; i < 10; i++ ){
+        for (int i = 0; i < 10; i++) {
             sb.append(para);
             Thread.sleep(100);
         }

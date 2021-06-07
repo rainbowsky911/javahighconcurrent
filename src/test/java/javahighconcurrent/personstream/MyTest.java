@@ -8,14 +8,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MyTest {
 
 
-
     @Test
-    public void test(){
+    public void test() {
         ArrayList<Person> persons = new ArrayList<>();
 
         persons.add(new Person(10, "Tom", Person.Country.BeiJing));

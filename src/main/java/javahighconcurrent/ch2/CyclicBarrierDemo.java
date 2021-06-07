@@ -6,11 +6,23 @@ import java.util.concurrent.CyclicBarrier;
 
 public class CyclicBarrierDemo {
 
-    public static class Soldier implements Runnable{
+    public static void main(String[] args) {
+        final int N = 4;
+        Thread[] allSoldier = new Thread[N];
+        boolean flag = false;
+        CyclicBarrier cyclic = new CyclicBarrier(N, new BarrierRun(flag, N));
 
-        private String soldier;
+        for (int i = 0; i < N; i++) {
+            System.out.println("士兵 " + i + " 报道");
+            allSoldier[i] = new Thread(new Soldier(cyclic, "士兵 " + i));
+            allSoldier[i].start();
+        }
+    }
+
+    public static class Soldier implements Runnable {
 
         private final CyclicBarrier cyclic;
+        private String soldier;
 
         public Soldier(CyclicBarrier cyclic, String soldier) {
             this.soldier = soldier;
@@ -32,7 +44,7 @@ public class CyclicBarrierDemo {
             }
         }
 
-        void doWork(){
+        void doWork() {
             try {
                 Thread.sleep(Math.abs(new Random().nextInt() % 10000));
             } catch (InterruptedException e) {
@@ -42,7 +54,7 @@ public class CyclicBarrierDemo {
         }
     }
 
-    public static class BarrierRun implements Runnable{
+    public static class BarrierRun implements Runnable {
 
         boolean flag;
 
@@ -55,25 +67,12 @@ public class CyclicBarrierDemo {
 
         @Override
         public void run() {
-            if ( flag ){
+            if (flag) {
                 System.out.println("司令：[士兵" + N + "个, 任务完成!]");
             } else {
                 System.out.println("司令：[士兵" + N + "个，集合完毕!]");
                 flag = true;
             }
-        }
-    }
-
-    public static void main(String[] args) {
-        final int N = 4;
-        Thread[] allSoldier = new Thread[N];
-        boolean flag = false;
-        CyclicBarrier cyclic = new CyclicBarrier(N, new BarrierRun(flag, N));
-
-        for ( int i = 0; i < N; i++ ){
-            System.out.println("士兵 " + i + " 报道");
-            allSoldier[i] = new Thread(new Soldier(cyclic, "士兵 " + i));
-            allSoldier[i].start();
         }
     }
 

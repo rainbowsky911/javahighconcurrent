@@ -13,6 +13,14 @@ public class FairLock implements Runnable {
 
     ReentrantLock lock = new ReentrantLock(true);
 
+    public static void main(String[] args) {
+        FairLock f = new FairLock();
+        Thread thread1 = new Thread(f, "thread1");
+        Thread thread2 = new Thread(f, "thread2");
+        thread1.start();
+        thread2.start();
+    }
+
     @Override
     public void run() {
 
@@ -25,14 +33,6 @@ public class FairLock implements Runnable {
             }
         }
 
-    }
-
-    public static void main(String[] args) {
-        FairLock f = new FairLock();
-        Thread thread1 = new Thread(f,"thread1");
-        Thread thread2 = new Thread(f,"thread2");
-        thread1.start();
-        thread2.start();
     }
 
 

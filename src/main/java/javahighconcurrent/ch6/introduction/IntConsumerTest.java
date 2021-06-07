@@ -8,7 +8,7 @@ import java.util.function.IntConsumer;
  */
 public class IntConsumerTest {
 
-    static int[] arr = {1,3,4,5};
+    static int[] arr = {1, 3, 4, 5};
 
     public static void main(String[] args) {
         IntConsumer outprintln = System.out::println;

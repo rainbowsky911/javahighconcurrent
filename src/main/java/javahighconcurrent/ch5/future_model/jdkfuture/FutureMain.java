@@ -1,6 +1,9 @@
 package javahighconcurrent.ch5.future_model.jdkfuture;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 /**
  * 使用Callable实例构造一个FutureTask实例，然后交给线程池

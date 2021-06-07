@@ -1,5 +1,27 @@
 package javahighconcurrent.ch6.introduction;
 
+interface IHorse {
+    void eat();
+
+    default void run() {
+        System.out.println("horses run");
+    }
+}
+
+interface IAnimal {
+    default void breath() {
+        System.out.println("breath");
+    }
+}
+
+interface IDonkey {
+    void eat();
+
+    default void run() {
+        System.out.println("Donkey run");
+    }
+}
+
 /**
  * java默认方法的相关demo
  */
@@ -12,28 +34,7 @@ public class DefaultMethodTest {
     }
 }
 
-interface IHorse{
-    void eat();
-
-    default void run(){
-        System.out.println("horses run");
-    }
-}
-
-interface IAnimal{
-    default void breath(){
-        System.out.println("breath");
-    }
-}
-
-interface IDonkey {
-    void eat();
-    default void run(){
-        System.out.println("Donkey run");
-    }
-}
-
-class Mule implements IHorse, IDonkey, IAnimal{
+class Mule implements IHorse, IDonkey, IAnimal {
 
     @Override
     public void eat() {

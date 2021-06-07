@@ -18,7 +18,7 @@ public class PMatrixMul {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         Matrix m1 = MatrixFactory.getRandomMatrix(300, 300, null);
-        Matrix m2 = MatrixFactory.getRandomMatrix(300, 300 ,null);
+        Matrix m2 = MatrixFactory.getRandomMatrix(300, 300, null);
         MatrixMulTask task = new MatrixMulTask(m1, m2, null);
         ForkJoinTask<Matrix> result = forkJoinPool.submit(task);
         Matrix pr = result.get();

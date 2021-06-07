@@ -19,6 +19,16 @@ public class TryLock implements Runnable {
         this.lock = lock;
     }
 
+    public static void main(String[] args) {
+
+        TryLock r1 = new TryLock();
+        TryLock r2 = new TryLock();
+        Thread t1 = new Thread(r1);
+        Thread t2 = new Thread(r2);
+        t1.start();
+        t2.start();
+    }
+
     @Override
     public void run() {
         if (lock == 1) {
@@ -68,16 +78,5 @@ public class TryLock implements Runnable {
                 }
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-
-        TryLock r1 = new TryLock();
-        TryLock r2 = new TryLock();
-        Thread t1 = new Thread(r1);
-        Thread t2 = new Thread(r2);
-        t1.start();
-        t2.start();
     }
 }

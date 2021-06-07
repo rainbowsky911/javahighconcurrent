@@ -9,7 +9,7 @@ public class Multiply implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (true) {
             try {
                 Msg msg = bq.take();
                 msg.i = msg.i * msg.j;
